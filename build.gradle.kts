@@ -14,6 +14,17 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+    implementation("org.junit.jupiter:junit-jupiter:5.9.2")
+    testImplementation(kotlin("test"))
+    // https://mvnrepository.com/artifact/io.github.microutils/kotlin-logging-jvm
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
+    implementation("org.slf4j:slf4j-simple:2.0.9")
+    // https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream
+    // https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream
+    implementation("com.thoughtworks.xstream:xstream:1.4.20")
+// https://mvnrepository.com/artifact/org.codehaus.jettison/jettison
+    implementation("org.codehaus.jettison:jettison:1.5.4")
 }
 
 tasks.test {
