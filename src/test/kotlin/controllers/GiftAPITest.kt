@@ -5,7 +5,7 @@ import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 import persistence.XMLSerializer
 import java.io.File
-import java.lang.Double.sum
+
 
 class GiftAPITest {
     private var winnie: Gift? = null
@@ -55,8 +55,39 @@ class GiftAPITest {
         println(shop)
     }
 
+    //@Test
+//    fun `adding prices of all Arraylist objects will give total price`() {
+//        println(filled!!.)
+//}
+
+//    @Test
+//    fun <T> Iterable<T>.sumOf(selector: Double) {
+//        var gifts = ArrayList<Gift>()
+//        val nintendo = Gift("Nintendo Switch White", 364.99, "Toy", 40)
+//        val control = Gift("Nintendo Gaming Controller", 25.00, "Toy", 30)
+//        val wispa = Gift("Wispa Bar", 0.99, "Food", 100)
+//
+//        gifts.add(nintendo)
+//        gifts.add(control)
+//        gifts.add(wispa)
+//
+//        val prices  = gifts.forEach{gift -> gift.price }
+//        return println(sumOf(prices as Double))
+//    }
+
     @Test
-    fun `adding prices of all Arraylist objects will give total price`() {
-        println(filled!!.addPrices())
+    fun `adding all product prices together for new arraylist will give total`() {
+        var gifts = ArrayList<Gift>()
+        val nintendo = Gift("Nintendo Switch White", 364.99, "Toy", 40)
+        val control = Gift("Nintendo Gaming Controller", 25.00, "Toy", 30)
+        val wispa = Gift("Wispa Bar", 0.99, "Food", 100)
+
+        gifts.add(nintendo)
+        gifts.add(control)
+        gifts.add(wispa)
+
+        val prices  = gifts.sumOf {gift -> gift.price}
+        return println(prices)
     }
+
 }

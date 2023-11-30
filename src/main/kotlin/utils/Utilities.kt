@@ -1,5 +1,7 @@
 package utils
 
+import models.Gift
+
 object Utilities {
 
     @JvmStatic
@@ -11,4 +13,10 @@ object Utilities {
     fun isValidListIndex(index: Int, list: List<Any>): Boolean {
         return (index >= 0 && index < list.size)
     }
+
+    @JvmStatic
+    fun formatListString(giftsToFormat: List<Gift>): String =
+        giftsToFormat
+            .joinToString(separator = "\n") { gift ->  "$gift" }
+
 }
