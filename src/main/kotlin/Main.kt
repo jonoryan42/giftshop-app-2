@@ -81,9 +81,8 @@ fun search() {
 
 fun viewBag() =
 """
-    ${gifts.}
 """.trimIndent()
-
+//Working on Shopping Bag
 
 fun createAccount() {
 
