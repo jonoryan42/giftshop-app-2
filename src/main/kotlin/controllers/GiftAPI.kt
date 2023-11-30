@@ -3,8 +3,10 @@ package controllers
 import models.Gift
 import persistence.Serializer
 import utils.Utilities.isValidListIndex
+import kotlin.math.round
+import kotlin.collections.List as List1
 
-class GiftAPI(serializerType: Serializer) {
+abstract class GiftAPI(serializerType: Serializer) {
 
     private var serializer: Serializer = serializerType
 
@@ -21,9 +23,9 @@ class GiftAPI(serializerType: Serializer) {
     }
 
     fun listAllGifts(): String =
-    if(gifts.isEmpty())
-        "No Gifts stored"
-    else formatListString(gifts)
+        if (gifts.isEmpty())
+            "No Gifts stored"
+        else formatListString(gifts)
 
     fun findGift(index: Int): Gift? {
         return if (isValidListIndex(index, gifts)) {
@@ -47,18 +49,28 @@ class GiftAPI(serializerType: Serializer) {
         formatListString(
             gifts.filter { gift -> gift.title.contains(searchString, ignoreCase = true) })
 
-    private fun formatListString(giftsToFormat : List<Gift>) : String =
+    private fun formatListString(giftsToFormat: List1<Gift>): String =
         giftsToFormat
-            .joinToString (separator = "\n") { gift ->
-                gifts.indexOf(gift).toString() + ": " + gift.toString() }
+            .joinToString(separator = "\n") { gift ->
+                gifts.indexOf(gift).toString() + ": " + gift.toString()
+            }
 
     @Throws(Exception::class)
     fun load() {
         gifts = serializer.read() as ArrayList<Gift>
     }
+
     @Throws(Exception::class)
     fun store() {
         serializer.write(gifts)
         println("Saving Gifts..")
     }
-}
+
+    fun roundTwoDecimals(number: Double) = round(number * 100) / 100
+
+    fun getPrice(gift: Gift?) = gift?.price
+
+    fun addPrices(sumByDouble(selector: (T) -> Double): Double =
+        sumByDouble(
+            gifts.filter { gift -> gift.price })
+}//Trying to work out Shopping Bag

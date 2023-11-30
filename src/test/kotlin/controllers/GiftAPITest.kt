@@ -5,6 +5,7 @@ import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 import persistence.XMLSerializer
 import java.io.File
+import java.lang.Double.sum
 
 class GiftAPITest {
     private var winnie: Gift? = null
@@ -33,9 +34,29 @@ class GiftAPITest {
         empty = null
     }
 
+    @Nested
+    inner class addGifts {
         @Test
         fun `adding a Gift to list adds to Arraylist`() {
             val newGift = Gift("Nintendo Switch White", 364.99, "Toy", 40)
             assertTrue(filled!!.add(newGift))
         }
+
+        @Test
+        fun `adding a Gift to an empty list adds to Arraylist`() {
+            val newGift = Gift("Nintendo Switch White", 364.99, "Toy", 40)
+            assertTrue(empty!!.add(newGift))
+        }
     }
+
+    @Test
+    fun `adding prices together gives total price`() {
+        val shop: Double? = filled!!.getPrice(winnie)?.plus(filled!!.getPrice(nestle)!!)
+        println(shop)
+    }
+
+    @Test
+    fun `adding prices of all Arraylist objects will give total price`() {
+        println(filled!!.addPrices())
+    }
+}
