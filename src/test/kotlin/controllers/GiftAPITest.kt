@@ -4,6 +4,7 @@ import models.Gift
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 import persistence.XMLSerializer
+import utils.Utilities.formatListString
 import java.io.File
 
 
@@ -48,7 +49,8 @@ class GiftAPITest {
             assertTrue(empty!!.add(newGift))
         }
     }
-
+@Nested
+inner class addingPrices {
     @Test
     fun `adding prices together gives total price`() {
         val shop: Double? = filled!!.getPrice(winnie)?.plus(filled!!.getPrice(nestle)!!)
@@ -86,8 +88,25 @@ class GiftAPITest {
         gifts.add(control)
         gifts.add(wispa)
 
-        val prices  = gifts.sumOf {gift -> gift.price}
+        val prices = gifts.sumOf { gift -> gift.price }
         return println(prices)
+    }
+}
+    @Test
+    fun `selecting product should copy it from one arraylist into another`() {
+        var gifts = ArrayList<Gift>()
+        val nintendo = Gift("Nintendo Switch White", 364.99, "Toy", 40)
+        val control = Gift("Nintendo Gaming Controller", 25.00, "Toy", 30)
+        val wispa = Gift("Wispa Bar", 0.99, "Food", 100)
+
+        gifts.add(nintendo)
+        gifts.add(control)
+        gifts.add(wispa)
+
+        var bag = ArrayList<Gift>()
+        bag.add(nintendo)
+        println(formatListString(bag) + "\n")
+        println(formatListString(gifts) + "\n")
     }
 
 }

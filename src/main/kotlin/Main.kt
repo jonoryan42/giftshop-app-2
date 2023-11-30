@@ -54,7 +54,7 @@ fun runMenu() {
             5 -> viewBag()
             6 -> createAccount()
             7 -> makePayment()
-           // 8 -> addGift()
+            8 -> addGift()
             9 -> listAllGifts()
             50 -> save()
             0 -> exitApp()
@@ -114,17 +114,17 @@ fun load() {
         exit(0)
     }
 
-//fun addGift() {
-//    val title = readNextLine("enter title: ")
-//    val price = readNextDouble("enter price: ")
-//    val category = readNextLine("enter category: ")
-//    val stock = readNextInt("enter stock: ")
-//    val isAdded = giftAPI.add(Gift(title,price, category, stock))
-//    if (isAdded) {
-//        println("Gift Added")
-//    } else {
-//        logger.info {"Add Failed"}
-//    }
-//}
+fun addGift() {
+    val title = readNextLine("enter title: ")
+    val price = readNextDouble("enter price: ")
+    val category = readNextLine("enter category: ")
+    val stock = readNextInt("enter stock: ")
+    val isAdded = giftAPI.add(Gift(title,price, category, stock))
+    if (isAdded) {
+        println("Gift Added")
+    } else {
+        logger.info {"Add Failed"}
+    }
+}
 
 fun listAllGifts() = println(giftAPI.listAllGifts())
