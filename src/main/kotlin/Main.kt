@@ -134,11 +134,13 @@ fun addGift() {
 fun listAllGifts() {
     println(giftAPI.listAllGifts() + "\n")
     val indexToAdd = readNextLine("Enter index of product to add to bag: ")
-   val giftToAdd = giftAPI.searchById(indexToAdd)
-    if (giftToAdd.isEmpty()) {
-        println("Invalid ID")
+   val giftToAdd = giftAPI.findGift(indexToAdd)
+    if (giftToAdd != null) {
+        bagAPI.add(giftToAdd)
     }
-    else bagAPI.add(giftToAdd)
-}
+        else {
+           logger.info ("No Products Match this ID.")
+        }
+    }
 
 fun listBag() = println(bagAPI.listAllGifts())

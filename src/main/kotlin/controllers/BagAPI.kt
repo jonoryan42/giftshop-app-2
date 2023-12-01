@@ -33,7 +33,7 @@ class BagAPI(/*serializerType: Serializer*/) {
     fun listAllGifts(): String =
         if (bag.isEmpty())
             "No Gifts stored"
-        else formatListString(bag)
+        else formatListBag(bag)
 
 //    fun findGift(index: Int): Gift? {
 //        return if (isValidListIndex(index, bag)) {
@@ -41,8 +41,9 @@ class BagAPI(/*serializerType: Serializer*/) {
 //        } else null
 //    }
 
-//    fun formatListBag(giftsToFormat: List<Gift>): String =
-//        giftsToFormat
-//            .joinToString(separator = "\n") { gift ->
-//                bag.indexOf(gift).toString() + ": " + gift.toString() }
+    private fun formatListBag(giftsToFormat: List<Gift>): String =
+        giftsToFormat
+            .joinToString(separator = "\n") { gift ->
+                "${gift.giftId}. ${gift.title}  ${gift.price}"
+            }
 }
