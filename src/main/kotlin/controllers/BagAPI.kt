@@ -1,6 +1,7 @@
 package controllers
 
 import models.Gift
+import utils.Utilities.formatListString
 //import persistence.Serializer
 
 import utils.Utilities.isValidListIndex
@@ -23,25 +24,25 @@ class BagAPI(/*serializerType: Serializer*/) {
 //        } else null
 //    }
 
-    fun deleteGift(indexToDelete: Int): Gift? {
-        return if (isValidListIndex(indexToDelete, bag)) {
-            bag.removeAt(indexToDelete)
-        } else null
-    }
+//    fun deleteGift(indexToDelete: Int): Gift? {
+//        return if (isValidListIndex(indexToDelete, bag)) {
+//            bag.removeAt(indexToDelete)
+//        } else null
+//    }
 
     fun listAllGifts(): String =
         if (bag.isEmpty())
             "No Gifts stored"
-        else formatListBag(bag)
+        else formatListString(bag)
 
-    fun findGift(index: Int): Gift? {
-        return if (isValidListIndex(index, bag)) {
-            bag[index]
-        } else null
-    }
+//    fun findGift(index: Int): Gift? {
+//        return if (isValidListIndex(index, bag)) {
+//            bag[index]
+//        } else null
+//    }
 
-    fun formatListBag(giftsToFormat: List<Gift>): String =
-        giftsToFormat
-            .joinToString(separator = "\n") { gift ->
-                bag.indexOf(gift).toString() + ": " + gift.toString() }
+//    fun formatListBag(giftsToFormat: List<Gift>): String =
+//        giftsToFormat
+//            .joinToString(separator = "\n") { gift ->
+//                bag.indexOf(gift).toString() + ": " + gift.toString() }
 }

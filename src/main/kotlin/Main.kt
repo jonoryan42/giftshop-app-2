@@ -118,11 +118,12 @@ fun load() {
     }
 
 fun addGift() {
+    val giftId = readNextLine("enter id")
     val title = readNextLine("enter title: ")
     val price = readNextDouble("enter price: ")
     val category = readNextLine("enter category: ")
     val stock = readNextInt("enter stock: ")
-    val isAdded = giftAPI.add(Gift(title, price, category, stock))
+    val isAdded = giftAPI.add(Gift(giftId, title, price, category, stock))
     if (isAdded) {
         println("Gift Added")
     } else {
@@ -132,12 +133,12 @@ fun addGift() {
 
 fun listAllGifts() {
     println(giftAPI.listAllGifts() + "\n")
-//    val indexToAdd = readNextInt("Enter index of product to add to bag: ")
-////    if(giftAPI.isValidIndex(indexToAdd)) {
-//    val giftToAdd = bagAPI.add(indexToAdd)
-//    //}
-
-
+    val indexToAdd = readNextLine("Enter index of product to add to bag: ")
+   val giftToAdd = giftAPI.searchById(indexToAdd)
+    if (giftToAdd.isEmpty()) {
+        println("Invalid ID")
+    }
+    else bagAPI.add(giftToAdd)
 }
 
 fun listBag() = println(bagAPI.listAllGifts())
