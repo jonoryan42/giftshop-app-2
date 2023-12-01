@@ -13,7 +13,6 @@ repositories {
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
     implementation("org.junit.jupiter:junit-jupiter:5.9.2")
     testImplementation(kotlin("test"))
     // https://mvnrepository.com/artifact/io.github.microutils/kotlin-logging-jvm
@@ -33,6 +32,10 @@ tasks.test {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+kotlin {
+    jvmToolchain(8)
 }
 
 application {

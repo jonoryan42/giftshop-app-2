@@ -1,3 +1,4 @@
+import controllers.BagAPI
 import controllers.GiftAPI
 import controllers.CustomerAPI
 import models.Gift
@@ -11,16 +12,18 @@ import utils.ScannerInput.readNextLine
 import java.io.File
 import java.lang.System.exit
 
+
 private val logger = KotlinLogging.logger {}
 private val giftAPI = GiftAPI(XMLSerializer(File("gifts.xml")))
 //private val customerAPI = CustomerAPI(XMLSerializer(File("customers.xml")))
+private val bagAPI = BagAPI()
 
 fun main(args: Array<String>) {
     runMenu()
 }
 
 fun mainMenu() : Int {
-    return ScannerInput.readNextInt("""
+    return readNextInt("""
         > ------------------------------------
         > |          GIFTSHOP APP             |
         > ------------------------------------
@@ -38,7 +41,7 @@ fun mainMenu() : Int {
         > -------------------------------------
         > | 0) Exit                           |
         > -------------------------------------
-        >  ==>> """.trimMargin(">"))
+        >  >> """.trimMargin(">"))
 
 }
 
@@ -79,11 +82,11 @@ fun search() {
 
 }
 
-fun viewBag() =
-"""
-    ${gifts.}
-""".trimIndent()
-
+fun viewBag()  {
+    listBag()
+    bagAPI.totalPrice()
+    bagMenu()
+}
 
 fun createAccount() {
 
@@ -116,11 +119,12 @@ fun load() {
     }
 
 fun addGift() {
+    val giftId = readNextLine("enter id")
     val title = readNextLine("enter title: ")
     val price = readNextDouble("enter price: ")
     val category = readNextLine("enter category: ")
     val stock = readNextInt("enter stock: ")
-    val isAdded = giftAPI.add(Gift(title,price, category, stock))
+    val isAdded = giftAPI.add(Gift(giftId, title, price, category, stock))
     if (isAdded) {
         println("Gift Added")
     } else {
@@ -128,4 +132,71 @@ fun addGift() {
     }
 }
 
-fun listAllGifts() = println(giftAPI.listAllGifts())
+fun listAllGifts() {
+    println(giftAPI.listAllGifts() + "\n")
+    listMenu()
+    }
+
+fun addToBag() {
+    val indexToAdd = readNextLine("Enter ID of product to add to Bag: ")
+    val giftToAdd = giftAPI.findGift(indexToAdd)
+    if (giftToAdd != null) {
+        bagAPI.add(giftToAdd)
+        println("${giftToAdd.title} added to Bag. \n")
+    } else {
+        logger.info("No Products Match this ID.")
+    }
+    listAllGifts()
+}
+
+fun listIntro() : Int = readNextInt("Select: 1. Add Product To Bag. 0. Exit \n >>")
+
+fun listMenu() {
+    do {
+        when (val option = listIntro() ) {
+            1 -> addToBag()
+            0 -> runMenu()
+            else -> logger.info {"Invalid option entered: $option" }
+        }
+    } while (true)
+}
+
+fun bagMenu() {
+    do {
+        when (val option = bagIntro() ) {
+            1 -> removeFromBag()
+            2 -> removeAllFromBag()
+            0 -> runMenu()
+            else -> logger.info {"Invalid option entered: $option" }
+        }
+    } while (true)
+}
+fun bagIntro() : Int = readNextInt("Select: 1. Remove Product from Bag. " +
+        "2. Remove All Products from Bag 0. Exit \n >>")
+
+
+fun removeFromBag() {
+    val indexToDelete = readNextLine("Enter the ID of Product to remove from Bag: ")
+    val idForDelete = giftAPI.findGift(indexToDelete)
+    if (indexToDelete != null) {
+        bagAPI.delete((indexToDelete))
+        println("${idForDelete!!.title} was removed from Bag. \n")
+    }
+    viewBag()
+}
+//Unfortunately, selecting ID of product for deletion from the shopping bag
+//will remove duplicates as well.
+
+fun removeAllFromBag() {
+    if (bagAPI.numberOfGifts() != 0 ) {
+        bagAPI.deleteAll()
+        println("All Products were removed from Bag. \n")
+    }
+    else {
+        println("There are no stored Products.")
+    }
+    viewBag()
+}
+
+fun listBag() = println( bagAPI.listShopping())
+
