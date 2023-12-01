@@ -1,10 +1,10 @@
 package controllers
 
 import models.Gift
-import utils.Utilities.formatListString
+import utils.Utilities.isValidListIndex
+
 //import persistence.Serializer
 
-import utils.Utilities.isValidListIndex
 //import kotlin.math.round
 
 class BagAPI(/*serializerType: Serializer*/) {
@@ -24,16 +24,25 @@ class BagAPI(/*serializerType: Serializer*/) {
 //        } else null
 //    }
 
-//    fun deleteGift(indexToDelete: Int): Gift? {
-//        return if (isValidListIndex(indexToDelete, bag)) {
-//            bag.removeAt(indexToDelete)
-//        } else null
-//    }
+    fun deleteGift(indexToDelete: Int): Gift? {
+        return if (isValidListIndex(indexToDelete, bag)) {
+            bag.removeAt(indexToDelete)
+        } else null
+    }
 
     fun listAllGifts(): String =
         if (bag.isEmpty())
             "No Gifts stored"
         else formatListBag(bag)
+
+    fun listShopping(): String = """
+           Shopping Bag
+    ---------------------------
+${if (bag.isEmpty()) 
+        "No Gifts stored" 
+    else formatListBag(bag)}
+    ---------------------------
+     """.trimMargin(">")
 
 //    fun findGift(index: Int): Gift? {
 //        return if (isValidListIndex(index, bag)) {
@@ -41,9 +50,13 @@ class BagAPI(/*serializerType: Serializer*/) {
 //        } else null
 //    }
 
+    fun totalPrice(): Unit = println("Total Cost: " + bag.sumOf { gift -> gift.price })
+
     private fun formatListBag(giftsToFormat: List<Gift>): String =
         giftsToFormat
             .joinToString(separator = "\n") { gift ->
-                "${gift.giftId}. ${gift.title}  ${gift.price}"
+//                "${gift.giftId}. " +
+                bag.indexOf(gift).toString() + ". ${gift.title}  ${gift.price}"
+//                totalPrice().toString()
             }
 }

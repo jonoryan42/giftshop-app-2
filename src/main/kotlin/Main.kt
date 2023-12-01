@@ -83,7 +83,15 @@ fun search() {
 
 fun viewBag() {
     listBag()
+    bagAPI.totalPrice()
 }
+//= """
+//    ${listBag()}
+//
+//
+//
+//    ${bagAPI.totalPrice()}
+//    """
 
 //Working on Shopping Bag
 
@@ -143,4 +151,11 @@ fun listAllGifts() {
         }
     }
 
-fun listBag() = println(bagAPI.listAllGifts())
+fun listBag() = println( bagAPI.listShopping())
+//listAllGifts())
+    // """
+//  ------------------------------
+// |        Shopping Bag          |
+//  ------------------------------
+//
+//    """.trimMargin(">")
