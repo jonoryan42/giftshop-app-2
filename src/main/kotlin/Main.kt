@@ -119,7 +119,7 @@ fun load() {
     }
 
 fun addGift() {
-    val giftId = readNextLine("enter id")
+    val giftId = readNextInt("enter id")
     val title = readNextLine("enter title: ")
     val price = readNextDouble("enter price: ")
     val category = readNextLine("enter category: ")
@@ -138,7 +138,7 @@ fun listAllGifts() {
     }
 
 fun addToBag() {
-    val indexToAdd = readNextLine("Enter ID of product to add to Bag: ")
+    val indexToAdd = readNextInt("Enter ID of product to add to Bag: ")
     val giftToAdd = giftAPI.findGift(indexToAdd)
     if (giftToAdd != null) {
         bagAPI.add(giftToAdd)
@@ -176,7 +176,7 @@ fun bagIntro() : Int = readNextInt("Select: 1. Remove Product from Bag. " +
 
 
 fun removeFromBag() {
-    val indexToDelete = readNextLine("Enter the ID of Product to remove from Bag: ")
+    val indexToDelete = readNextInt("Enter the ID of Product to remove from Bag: ")
     val idForDelete = giftAPI.findGift(indexToDelete)
     if (indexToDelete != null) {
         bagAPI.delete((indexToDelete))

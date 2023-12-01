@@ -47,11 +47,11 @@ class GiftAPI(serializerType: Serializer) {
         formatListString(
             gifts.filter { gift -> gift.title.contains(searchString, ignoreCase = true) })
 
-    fun searchById(searchString: String) =
-        formatListString(
-            gifts.filter { gift -> gift.giftId.contains(searchString, ignoreCase = true) })
+//    fun searchById(searchString: String) =
+//        formatListString(
+//            gifts.filter { gift -> gift.giftId.contains(searchString, ignoreCase = true) })
 
-    fun findGift(giftId : String) =  gifts.find{ gift -> gift.giftId == giftId }
+    fun findGift(giftId : Int) =  gifts.find{ gift -> gift.giftId == giftId }
 
     @Throws(Exception::class)
     fun load() {
