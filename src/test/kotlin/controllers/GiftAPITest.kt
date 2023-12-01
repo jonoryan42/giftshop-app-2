@@ -105,6 +105,8 @@ inner class addingPrices {
 
         var bag = ArrayList<Gift>()
         bag.add(nintendo)
+        bag.add(control)
+
         println(formatListString(bag) + "\n")
         println(formatListString(gifts) + "\n")
     }

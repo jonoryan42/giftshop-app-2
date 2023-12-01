@@ -14,9 +14,11 @@ object Utilities {
         return (index >= 0 && index < list.size)
     }
 
-    @JvmStatic
     fun formatListString(giftsToFormat: List<Gift>): String =
         giftsToFormat
-            .joinToString(separator = "\n") { gift ->  "$gift" }
+            .joinToString(separator = "\n") { gift -> "$gift"}
 
+//    fun formatListYes(giftsToFormat:  List<Gift>): String =
+//        giftsToFormat
+//            .joinToString(separator = "\n")
 }
