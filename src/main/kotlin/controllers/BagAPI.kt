@@ -12,7 +12,7 @@ class BagAPI {
         return bag.add(gift)
     }
 
-    fun delete(id: String) = bag.removeIf { gift -> gift.giftId == id}
+    fun delete(id: Int) = bag.removeIf { gift -> gift.giftId == id}
 
     fun deleteAll() = bag.removeAll(bag)
 
