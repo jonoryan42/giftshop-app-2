@@ -30,9 +30,9 @@ class GiftAPI(serializerType: Serializer) {
 //        } else null
 //    }
 
-//    fun updateGift(indexToUpdate: Int, gift: Gift?): Boolean {
-//        val foundGift = findGift(indexToUpdate)
-//        if ((foundGift != null) && (gift != null)) {
+//    fun updateGift(giftId: String, gift: Gift?): Boolean {
+//        val foundGift = findGift(giftId)
+//        if (foundGift != null) && (gift != null) {
 //            foundGift.giftId = gift.giftId
 //            foundGift.title = gift.title
 //            foundGift.category = gift.category
@@ -66,9 +66,9 @@ class GiftAPI(serializerType: Serializer) {
 
     fun getPrice(gift: Gift?) = gift?.price
 
-    fun formatListString(giftsToFormat: List<Gift>): String =
+    private fun formatListString(giftsToFormat: List<Gift>): String =
         giftsToFormat
-            .joinToString(separator = "\n") { gift -> "ID. ${gift.giftId}. " +
+            .joinToString( "\n") { gift -> "ID. ${gift.giftId}. " +
                     "${gift.title} / ${gift.price} / In Stock: ${gift.stock} / ${gift.category}"}
 
     }

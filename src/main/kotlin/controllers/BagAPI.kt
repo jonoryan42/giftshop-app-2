@@ -32,10 +32,9 @@ ${if (bag.isEmpty())
     fun totalPrice(): Unit = println("Total Cost: " + roundTwoDecimals(bag.sumOf { gift ->
         gift.price }  ) + "\n")
 
-    private fun formatListBag(giftsToFormat: List<Gift>): String {
-       return  giftsToFormat
-            .joinToString(separator = "\n") { gift ->
+    private fun formatListBag(giftsToFormat: List<Gift>): String =
+        giftsToFormat
+            .joinToString( "\n") { gift ->
                   "ID. ${gift.giftId}. ${gift.title} /  ${gift.price}"
             }
     }
-}
