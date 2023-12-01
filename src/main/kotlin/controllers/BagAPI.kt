@@ -28,7 +28,7 @@ class BagAPI(/*serializerType: Serializer*/) {
         return if (isValidListIndex(indexToDelete, bag)) {
             bag.removeAt(indexToDelete)
         } else null
-    }
+    } //Working on delete
 
     fun listAllGifts(): String =
         if (bag.isEmpty())

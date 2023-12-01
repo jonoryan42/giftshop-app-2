@@ -40,7 +40,7 @@ fun mainMenu() : Int {
         > -------------------------------------
         > | 0) Exit                           |
         > -------------------------------------
-        >  ==>> """.trimMargin(">"))
+        >  >> """.trimMargin(">"))
 
 }
 
@@ -81,9 +81,17 @@ fun search() {
 
 }
 
-fun viewBag() {
+fun viewBag() : Int {
     listBag()
     bagAPI.totalPrice()
+
+    do {
+        when (val option = bagMenu() ) {
+            1 -> removeFromBag()
+            0 -> runMenu()
+            else -> logger.info {"Invalid option entered: $option" }
+        }
+    } while (true)
 }
 //= """
 //    ${listBag()}
@@ -150,6 +158,21 @@ fun listAllGifts() {
            logger.info ("No Products Match this ID.")
         }
     }
+
+fun bagMenu() : Int {
+    return ScannerInput.readNextInt("Select: 1. = Remove From Bag. 0. = Exit \n >>")
+}
+
+fun removeFromBag() {
+    val indexToDelete = readNextInt("Enter the index of Product to remove from Bag: ")
+    val giftToDelete = bagAPI.deleteGift((indexToDelete))
+    if (giftToDelete != null) {
+        println("${giftToDelete.title} removed from Bag. \n")
+    } else {
+        logger.info {"No Products Removed."}
+    }
+    viewBag()
+}
 
 fun listBag() = println( bagAPI.listShopping())
 //listAllGifts())
