@@ -73,9 +73,12 @@ class GiftAPI(serializerType: Serializer) {
         println("Saving Gifts..")
     }
 
-    fun roundTwoDecimals(number: Double) = round(number * 100) / 100
-
     fun getPrice(gift: Gift?) = gift?.price
+
+    fun formatListString(giftsToFormat: List<Gift>): String =
+        giftsToFormat
+            .joinToString(separator = "\n") { gift -> "ID. ${gift.giftId}. " +
+                    "${gift.title} / ${gift.price} / In Stock: ${gift.stock} / ${gift.category}"}
 
 //    fun formatListGift(giftsToFormat: List<Gift>): String =
 //        giftsToFormat
