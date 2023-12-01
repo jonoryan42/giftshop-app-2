@@ -8,12 +8,13 @@ import utils.Utilities.formatListString
 import java.io.File
 
 
-class GiftAPITest {
+class GiftTest {
     private var winnie: Gift? = null
     private var nestle: Gift? = null
     private var emerald: Gift? = null
     private var filled: GiftAPI? = GiftAPI(XMLSerializer(File("gifts2.xml")))
     private var empty: GiftAPI? = GiftAPI(XMLSerializer(File("gifts2.xml")))
+    private var filledBag: BagAPI? = BagAPI()
 
     @BeforeEach
     fun setup() {
@@ -24,6 +25,10 @@ class GiftAPITest {
         filled!!.add(winnie!!)
         filled!!.add(nestle!!)
         filled!!.add(emerald!!)
+
+        filledBag!!.add(winnie!!)
+        filledBag!!.add(nestle!!)
+        filledBag!!.add(emerald!!)
     }
 
     @AfterEach
@@ -33,6 +38,7 @@ class GiftAPITest {
         emerald = null
         filled = null
         empty = null
+        filledBag = null
     }
 
     @Nested
@@ -56,26 +62,6 @@ inner class addingPrices {
         val shop: Double? = filled!!.getPrice(winnie)?.plus(filled!!.getPrice(nestle)!!)
         println(shop)
     }
-
-    //@Test
-//    fun `adding prices of all Arraylist objects will give total price`() {
-//        println(filled!!.)
-//}
-
-//    @Test
-//    fun <T> Iterable<T>.sumOf(selector: Double) {
-//        var gifts = ArrayList<Gift>()
-//        val nintendo = Gift("Nintendo Switch White", 364.99, "Toy", 40)
-//        val control = Gift("Nintendo Gaming Controller", 25.00, "Toy", 30)
-//        val wispa = Gift("Wispa Bar", 0.99, "Food", 100)
-//
-//        gifts.add(nintendo)
-//        gifts.add(control)
-//        gifts.add(wispa)
-//
-//        val prices  = gifts.forEach{gift -> gift.price }
-//        return println(sumOf(prices as Double))
-//    }
 
     @Test
     fun `adding all product prices together for new arraylist will give total`() {
@@ -109,6 +95,12 @@ inner class addingPrices {
 
         println(formatListString(bag) + "\n")
         println(formatListString(gifts) + "\n")
+    }
+
+    @Test
+    fun `deleting all gifts from arraylist should leave arraylist empty`() {
+        filledBag!!.deleteAll()
+        assertEquals(0, filledBag!!.numberOfGifts())
     }
 
 }

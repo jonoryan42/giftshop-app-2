@@ -21,7 +21,4 @@ object Utilities {
 
     fun roundTwoDecimals(number: Double) = round(number * 100) / 100
 
-//    fun formatListYes(giftsToFormat:  List<Gift>): String =
-//        giftsToFormat
-//            .joinToString(separator = "\n")
 }
