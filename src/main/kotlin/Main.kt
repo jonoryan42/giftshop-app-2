@@ -165,12 +165,14 @@ fun bagMenu() {
     do {
         when (val option = bagIntro() ) {
             1 -> removeFromBag()
+            2 -> removeAllFromBag()
             0 -> runMenu()
             else -> logger.info {"Invalid option entered: $option" }
         }
     } while (true)
 }
-fun bagIntro() : Int = readNextInt("Select: 1. Remove Product From Bag. 0. Exit \n >>")
+fun bagIntro() : Int = readNextInt("Select: 1. Remove Product from Bag. " +
+        "2. Remove All Products from Bag 0. Exit \n >>")
 
 
 fun removeFromBag() {
@@ -183,7 +185,18 @@ fun removeFromBag() {
     viewBag()
 }
 //Unfortunately, selecting ID of product for deletion from the shopping bag
-//will remove duplicates as well
+//will remove duplicates as well.
+
+fun removeAllFromBag() {
+    if (bagAPI.numberOfGifts() != 0 ) {
+        bagAPI.deleteAll()
+        println("All Products were removed from Bag. \n")
+    }
+    else {
+        println("There are no stored Products.")
+    }
+    viewBag()
+}
 
 fun listBag() = println( bagAPI.listShopping())
 
