@@ -1,18 +1,21 @@
 <object-stream>
   <list>
     <models.Gift>
+      <giftId>0</giftId>
       <title>Winnie The Pooh Teddy</title>
       <price>9.99</price>
       <category>Toy</category>
       <stock>50</stock>
     </models.Gift>
     <models.Gift>
+      <giftId>1</giftId>
       <title>Nestle Quality Street Chocolate Box</title>
       <price>14.99</price>
       <category>Food</category>
       <stock>60</stock>
     </models.Gift>
     <models.Gift>
+      <giftId>2</giftId>
       <title>Emerald Dangle Earrings</title>
       <price>61.99</price>
       <category>Jewellery</category>

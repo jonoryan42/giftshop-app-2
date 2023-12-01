@@ -4,6 +4,7 @@ import models.Gift
 import persistence.Serializer
 import utils.Utilities.formatListString
 import utils.Utilities.isValidListIndex
+import javax.naming.directory.SearchResult
 import kotlin.math.round
 
 class GiftAPI(serializerType: Serializer) {
@@ -12,42 +13,54 @@ class GiftAPI(serializerType: Serializer) {
 
     private var gifts = ArrayList<Gift>()
 
+//    private var lastId = 0
+//
+//    private fun getId() = lastId++
+
     fun add(gift: Gift): Boolean {
+//        gift.giftId = getId()
         return gifts.add(gift)
     }
 
-    fun deleteGift(indexToDelete: Int): Gift? {
-        return if (isValidListIndex(indexToDelete, gifts)) {
-            gifts.removeAt(indexToDelete)
-        } else null
-    }
+//    fun deleteGift(indexToDelete: Int): Gift? {
+//        return if (isValidListIndex(indexToDelete, gifts)) {
+//            gifts.removeAt(indexToDelete)
+//        } else null
+//    }
 
     fun listAllGifts(): String =
         if (gifts.isEmpty())
             "No Gifts stored"
         else formatListString(gifts)
 
-    fun findGift(index: Int): Gift? {
-        return if (isValidListIndex(index, gifts)) {
-            gifts[index]
-        } else null
-    }
+//    fun findGift(index: Int): Gift? {
+//        return if (isValidListIndex(index, gifts)) {
+//            gifts[index]
+//        } else null
+//    }
 
-    fun updateGift(indexToUpdate: Int, gift: Gift?): Boolean {
-        val foundGift = findGift(indexToUpdate)
-        if ((foundGift != null) && (gift != null)) {
-            foundGift.title = gift.title
-            foundGift.category = gift.category
-            foundGift.price = gift.price
-            foundGift.stock = gift.stock
-            return true
-        }
-        return false
-    }
+//    fun updateGift(indexToUpdate: Int, gift: Gift?): Boolean {
+//        val foundGift = findGift(indexToUpdate)
+//        if ((foundGift != null) && (gift != null)) {
+//            foundGift.giftId = gift.giftId
+//            foundGift.title = gift.title
+//            foundGift.category = gift.category
+//            foundGift.price = gift.price
+//            foundGift.stock = gift.stock
+//            return true
+//        }
+//        return false
+//    }
 
     fun searchByTitle(searchString: String) =
         formatListString(
             gifts.filter { gift -> gift.title.contains(searchString, ignoreCase = true) })
+
+    fun searchById(searchString: String) =
+        formatListString(
+            gifts.filter { gift -> gift.giftId.contains(searchString, ignoreCase = true) })
+
+    fun findGift(giftId : String) =  gifts.find{ gift -> gift.giftId == giftId }
 
     @Throws(Exception::class)
     fun load() {
@@ -63,6 +76,15 @@ class GiftAPI(serializerType: Serializer) {
     fun roundTwoDecimals(number: Double) = round(number * 100) / 100
 
     fun getPrice(gift: Gift?) = gift?.price
+
+//    fun formatListGift(giftsToFormat: List<Gift>): String =
+//        giftsToFormat
+//            .joinToString(separator = "\n") { gift ->
+////                gifts.indexOf(gift).toString() + ": " + gift.toString() }
+
+//    fun isValidIndex(index: Int): Boolean {
+//        return isValidListIndex(index, gifts)
+//    }
 
 //    fun numbers() {
 //    val yes = listOf(5,42,10,4)

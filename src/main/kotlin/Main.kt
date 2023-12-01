@@ -1,3 +1,4 @@
+import controllers.BagAPI
 import controllers.GiftAPI
 import controllers.CustomerAPI
 import models.Gift
@@ -14,6 +15,7 @@ import java.lang.System.exit
 private val logger = KotlinLogging.logger {}
 private val giftAPI = GiftAPI(XMLSerializer(File("gifts.xml")))
 //private val customerAPI = CustomerAPI(XMLSerializer(File("customers.xml")))
+private val bagAPI = BagAPI()
 
 fun main(args: Array<String>) {
     runMenu()
@@ -79,9 +81,18 @@ fun search() {
 
 }
 
-fun viewBag() =
-"""
-""".trimIndent()
+fun viewBag() {
+    listBag()
+    bagAPI.totalPrice()
+}
+//= """
+//    ${listBag()}
+//
+//
+//
+//    ${bagAPI.totalPrice()}
+//    """
+
 //Working on Shopping Bag
 
 fun createAccount() {
@@ -115,11 +126,12 @@ fun load() {
     }
 
 fun addGift() {
+    val giftId = readNextLine("enter id")
     val title = readNextLine("enter title: ")
     val price = readNextDouble("enter price: ")
     val category = readNextLine("enter category: ")
     val stock = readNextInt("enter stock: ")
-    val isAdded = giftAPI.add(Gift(title,price, category, stock))
+    val isAdded = giftAPI.add(Gift(giftId, title, price, category, stock))
     if (isAdded) {
         println("Gift Added")
     } else {
@@ -127,4 +139,23 @@ fun addGift() {
     }
 }
 
-fun listAllGifts() = println(giftAPI.listAllGifts())
+fun listAllGifts() {
+    println(giftAPI.listAllGifts() + "\n")
+    val indexToAdd = readNextLine("Enter index of product to add to bag: ")
+   val giftToAdd = giftAPI.findGift(indexToAdd)
+    if (giftToAdd != null) {
+        bagAPI.add(giftToAdd)
+    }
+        else {
+           logger.info ("No Products Match this ID.")
+        }
+    }
+
+fun listBag() = println( bagAPI.listShopping())
+//listAllGifts())
+    // """
+//  ------------------------------
+// |        Shopping Bag          |
+//  ------------------------------
+//
+//    """.trimMargin(">")
