@@ -2,6 +2,8 @@ package controllers
 
 import models.Gift
 import utils.Utilities.isValidListIndex
+import utils.Utilities.roundTwoDecimals
+import kotlin.math.round
 
 //import persistence.Serializer
 
@@ -12,7 +14,12 @@ class BagAPI(/*serializerType: Serializer*/) {
 
     private var bag = ArrayList<Gift>()
 
+//    private var lastBagId = 0
+//
+//    private fun getBagId() = lastBagId++
+
     fun add(gift: Gift): Boolean {
+//        gift.bagId = getBagId()
         return bag.add(gift)
     }
 
@@ -24,16 +31,19 @@ class BagAPI(/*serializerType: Serializer*/) {
 //        } else null
 //    }
 
-    fun deleteGift(indexToDelete: Int): Gift? {
-        return if (isValidListIndex(indexToDelete, bag)) {
-            bag.removeAt(indexToDelete)
-        } else null
-    } //Working on delete
+//    fun deleteGift(indexToDelete: Int): Gift? {
+//        return if (isValidListIndex(indexToDelete, bag)) {
+//            bag.removeAt(indexToDelete)
+//        } else null
+//    } //Working on delete
 
-    fun listAllGifts(): String =
-        if (bag.isEmpty())
-            "No Gifts stored"
-        else formatListBag(bag)
+    fun delete(id: String) = bag.removeIf { gift -> gift.giftId == id}
+
+
+//    fun listAllGifts(): String =
+//        if (bag.isEmpty())
+//            "No Gifts stored"
+//        else formatListBag(bag)
 
     fun listShopping(): String = """
            Shopping Bag
@@ -50,13 +60,15 @@ ${if (bag.isEmpty())
 //        } else null
 //    }
 
-    fun totalPrice(): Unit = println("Total Cost: " + bag.sumOf { gift -> gift.price })
+    fun totalPrice(): Unit = println("Total Cost: " + roundTwoDecimals(bag.sumOf { gift -> gift.price }))
 
-    private fun formatListBag(giftsToFormat: List<Gift>): String =
-        giftsToFormat
+    private fun formatListBag(giftsToFormat: List<Gift>): String {
+       return  giftsToFormat
             .joinToString(separator = "\n") { gift ->
 //                "${gift.giftId}. " +
-                bag.indexOf(gift).toString() + ". ${gift.title}  ${gift.price}"
-//                totalPrice().toString()
+           //     ${bagId}.
+               // ${gift.bagId}
+                  "ID. ${gift.giftId}. ${gift.title} /  ${gift.price}"
             }
+    }
 }
