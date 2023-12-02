@@ -39,4 +39,10 @@ object ScannerInput {
         print(prompt)
         return Scanner(System.`in`).next()[0]
     }
+
+    @JvmStatic
+    fun readNextLong(prompt: String?): Long {
+        print(prompt)
+        return Scanner(System.`in`).next().toLong()
+    }
 }
