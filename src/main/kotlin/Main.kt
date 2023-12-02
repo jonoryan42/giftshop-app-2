@@ -19,6 +19,8 @@ private val giftAPI = GiftAPI(XMLSerializer(File("gifts.xml")))
 private val customerAPI = CustomerAPI(XMLSerializer(File("customers.xml")))
 private val bagAPI = BagAPI()
 
+private var logged = " "
+
 fun main(args: Array<String>) {
     runMenu()
 }
@@ -26,7 +28,9 @@ fun main(args: Array<String>) {
 fun mainMenu() : Int {
     return readNextInt("""
         > ------------------------------------
-        > |          GIFTSHOP APP             |
+        >        
+        >           GIFTSHOP APP    
+        >                           $logged       
         > ------------------------------------
         > | 1) View Toys                      |
         > | 2) View Food                      |
@@ -83,10 +87,15 @@ fun search() {
 
 }
 
-fun viewBag()  {
-    listBag()
-    bagAPI.totalPrice()
-    bagMenu()
+fun viewBag() {
+    if (bagAPI.numberOfGifts() == 0) {
+        println("No Gifts Stored in Bag.")
+    }
+    else {
+        listBag()
+        bagAPI.totalPrice()
+        bagMenu()
+    }
 }
 
 fun createAccount() {
@@ -95,57 +104,52 @@ fun createAccount() {
 }
 
 fun checkout() {
-//    println("You must Log In first before Checking Out.")
-//    val enterEmail = readNextLine("Email Address: >> ")
-//    val account = customerAPI.validEmail(enterEmail)
-//    if (enterEmail != account?.email) {
-//        logger.info("Invalid Email entered.")
-//    }
-//    else {
-//        val enterPwd = readNextLine("Password: >> ")
-//        val secure = customerAPI.validPwd(enterPwd)
-//        if (enterPwd != secure?.password) {
-//            logger.info ("Invalid Password entered.")
-//        }
-//        else {
-//            println("You have successfully logged in, ${secure.firstName}")
-    if (login()) {
-            listBag()
-            bagAPI.totalPrice()
-            val next = readNextInt("Would you like to Checkout? \n " +
-                    "Select:  1. Checkout. 0. Back To Menu. \n >> ")
-            if (next == 1) {
-                bagAPI.deleteAll()
-                println("Thank you for your purchase!")
-            }
-            else {
-                println("Did not Checkout.")
-            }
-        }
+      if (logged !== "Logged In") {
+          println("You must Log-In first.")
+      }
+          else {
+          if (bagAPI.numberOfGifts() == 0) {
+              println("\nNo Gifts in Bag")
+          } else {
+              listBag()
+              bagAPI.totalPrice()
+
+              val next = readNextInt(
+                  "Would you like to Checkout? \n " +
+                          "Select:  1. Checkout. 0. Back To Menu. \n >> "
+              )
+              if (next == 1) {
+                  bagAPI.deleteAll()
+                  println("Thank you for your purchase!")
+                  runMenu()
+              } else {
+                  println("Did not Checkout.")
+              }
+          }
+      }
+    }
+
+fun login() {
+
+    if(logged == "Logged In") {
+        println("You're already logged in.")
+    }
     else {
-        println("You must Log-In first.")
-    }
-    }
-
-fun login(): Boolean {
-
-    println("You must Log In first before Checking Out.")
-    val enterEmail = readNextLine("Email Address: >> ")
-    val account = customerAPI.validEmail(enterEmail)
-    if (enterEmail != account?.email) {
-        logger.info("Invalid Email entered.")
-        return false
-    } else {
-        val enterPwd = readNextLine("Password: >> ")
-        val secure = customerAPI.validPwd(enterPwd)
-        if (enterPwd != secure?.password) {
-            logger.info("Invalid Password entered.")
-            return false
+        val enterEmail = readNextLine("Email Address: >> ")
+        val account = customerAPI.validEmail(enterEmail)
+        if (enterEmail != account?.email) {
+            logger.info("Invalid Email entered.")
         } else {
-            println("You have successfully logged in, ${secure.firstName}")
+            val enterPwd = readNextLine("Password: >> ")
+            val secure = customerAPI.validPwd(enterPwd)
+            if (enterPwd != secure?.password) {
+                logger.info("Invalid Password entered.")
+            } else {
+                println("You have successfully logged in, ${secure.firstName}.")
+                logged = "Logged In"
+            }
         }
     }
-    return true
 }
 
 fun save() {
@@ -214,26 +218,18 @@ fun listMenu() {
 }
 
 fun bagMenu() {
-    do {
-        when (val option = bagIntro() ) {
-            1 -> removeFromBag()
-            2 -> removeAllFromBag()
-            0 -> runMenu()
-            else -> logger.info {"Invalid option entered: $option" }
-        }
-    } while (true)
+        do {
+            when (val option = bagIntro()) {
+                1 -> removeFromBag()
+                2 -> removeAllFromBag()
+                3 -> checkout()
+                0 -> runMenu()
+                else -> logger.info { "Invalid option entered: $option" }
+            }
+        } while (true)
 }
-
-//fun checkoutMenu() {
-//    do {
-//        when (val option = Int) {
-//            1 - yes()
-//            2 - no()
-//        }
-//    }
-//}
-fun bagIntro() : Int = readNextInt("Select: 1. Remove Product from Bag. " +
-        "2. Remove All Products from Bag 0. Exit \n >> ")
+fun bagIntro() : Int = readNextInt("Select: \n1. Remove Product from Bag. " +
+        "\n2. Remove All Products from Bag. \n3. Checkout. \n0. Exit \n >> ")
 
 
 fun removeFromBag() {
@@ -260,7 +256,7 @@ fun removeAllFromBag() {
 }
 
 fun listBag() = println( bagAPI.listShopping())
-//printing shopping bag without before total
+//printing shopping bag before getting total
 
 fun createAccountMenu() {
     val firstName = readNextLine("First Name: >> ")
@@ -287,3 +283,4 @@ fun createAccountMenu() {
             logger.info("Account could not be created.")
         }
 }
+//creating Customer account
