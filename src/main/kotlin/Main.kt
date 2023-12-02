@@ -9,13 +9,14 @@ import utils.ScannerInput
 import utils.ScannerInput.readNextDouble
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
+import utils.ScannerInput.readNextLong
 import java.io.File
 import java.lang.System.exit
 
 
 private val logger = KotlinLogging.logger {}
 private val giftAPI = GiftAPI(XMLSerializer(File("gifts.xml")))
-//private val customerAPI = CustomerAPI(XMLSerializer(File("customers.xml")))
+private val customerAPI = CustomerAPI(XMLSerializer(File("customers.xml")))
 private val bagAPI = BagAPI()
 
 fun main(args: Array<String>) {
@@ -89,7 +90,8 @@ fun viewBag()  {
 }
 
 fun createAccount() {
-
+    println("Please enter these details.")
+    createAccountMenu()
 }
 
 fun makePayment() {
@@ -99,7 +101,7 @@ fun makePayment() {
 fun save() {
     try {
         giftAPI.store()
-        //customerAPI.store()
+        customerAPI.store()
     } catch (e: Exception) {
         System.err.println("Error writing to file: $e")
     }
@@ -108,7 +110,7 @@ fun save() {
 fun load() {
     try {
         giftAPI.load()
-        //customerAPI.load()
+        customerAPI.load()
     } catch (e: Exception) {
         System.err.println("Error reading from file: $e")
     }
@@ -200,3 +202,22 @@ fun removeAllFromBag() {
 
 fun listBag() = println( bagAPI.listShopping())
 
+fun createAccountMenu() {
+    val firstName = readNextLine("First Name: ")
+    val surname = readNextLine("Surname: ")
+    val email = readNextLine("Email Address: ")
+    if (email.contains("@")) {
+        val phone = readNextLong("Phone No. : ")
+        val isAdded = customerAPI.add(
+            Customer(
+                firstName = firstName, surname = surname,
+                email = email, phone = phone
+            )
+        )
+        if (isAdded) {
+            println("Account Created")
+        } else {
+            logger.info("Account could not be created.")
+        }
+    }
+}
