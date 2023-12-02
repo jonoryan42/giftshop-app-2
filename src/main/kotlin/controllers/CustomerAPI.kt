@@ -1,17 +1,19 @@
 package controllers
 
 import models.Customer
-import java.util.ArrayList
+import models.Gift
 import persistence.Serializer
+import sun.security.util.Password
 //import utils.Utilities
 import java.lang.Exception
+import java.util.*
 import kotlin.jvm.Throws
 
 class CustomerAPI(serializerType: Serializer) {
 
     private var serializer: Serializer = serializerType
 
-    private var customers = ArrayList<Customer>()
+    private var customers = ArrayList<Customer>()//<Any?, Any?>>()
 
     private var lastId = 0
 
@@ -22,17 +24,31 @@ class CustomerAPI(serializerType: Serializer) {
         return customers.add(customer)
     }
 
-    fun delete(id: Int) = customers.removeIf { customer -> customer.customerId == id }
+    private fun delete(id: Int) = customers.removeIf { customer -> customer.customerId == id }
 
     private fun listAllCustomers(): String =
         if (customers.isEmpty())
             "No Customers stored"
         else formatListString(customers)
 
-    fun findCustomer(customerId:Int) = customers.find { customer ->
+    fun findCustomer(customerId: Int) = customers.find { customer ->
         customer.customerId == customerId
     }
-    fun updateCustomer(customerId: Int, customer: Customer?): Boolean {
+
+    //    fun validEmail(email: String): Boolean =
+//        formatListString(
+//            customers.filter { customer -> customer.email = it }
+//        )
+    fun validEmail(email: String): Customer? = customers.find { customer ->
+        customer.email == email
+    }
+    //Searches for Customer by their email
+
+    fun validPwd(password: String): Customer? = customers.find { customer ->
+        customer.password == password
+    }
+
+    fun updateCustomer(customerId: Int, customer: Customer): Boolean {
         val foundCustomer = findCustomer(customerId)
         if ((foundCustomer != null) && (customer != null)) {
             foundCustomer.customerId = customer.customerId
@@ -40,6 +56,7 @@ class CustomerAPI(serializerType: Serializer) {
             foundCustomer.surname = customer.surname
             foundCustomer.phone = customer.phone
             foundCustomer.email = customer.email
+            foundCustomer.password = customer.password
             return true
         }
         return false
@@ -56,6 +73,14 @@ class CustomerAPI(serializerType: Serializer) {
     fun store() {
         serializer.write(customers)
     }
+
+
+//        surname.replaceFirstChar
+//    }
+//        if (gift.isLowerCase()) gift.titlecase(Locale.getDefault())
+//        else gift.toString()
+//    }
+
 
     private fun formatListString(customersToFormat: List<Customer>): String =
         customersToFormat
