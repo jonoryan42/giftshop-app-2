@@ -61,7 +61,6 @@ class GiftAPI(serializerType: Serializer) {
     @Throws(Exception::class)
     fun store() {
         serializer.write(gifts)
-        println("Saving Gifts..")
     }
 
     fun getPrice(gift: Gift?) = gift?.price
