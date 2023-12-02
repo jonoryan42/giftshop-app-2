@@ -12,7 +12,7 @@ class BagAPI {
         return bag.add(gift)
     }
 
-    fun delete(id: String) = bag.removeIf { gift -> gift.giftId == id}
+    fun delete(id: Int) = bag.removeIf { gift -> gift.giftId == id}
 
     fun deleteAll() = bag.removeAll(bag)
 
@@ -32,10 +32,9 @@ ${if (bag.isEmpty())
     fun totalPrice(): Unit = println("Total Cost: " + roundTwoDecimals(bag.sumOf { gift ->
         gift.price }  ) + "\n")
 
-    private fun formatListBag(giftsToFormat: List<Gift>): String {
-       return  giftsToFormat
-            .joinToString(separator = "\n") { gift ->
+    private fun formatListBag(giftsToFormat: List<Gift>): String =
+        giftsToFormat
+            .joinToString( "\n") { gift ->
                   "ID. ${gift.giftId}. ${gift.title} /  ${gift.price}"
             }
     }
-}

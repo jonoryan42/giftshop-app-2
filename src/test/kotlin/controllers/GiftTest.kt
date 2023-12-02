@@ -18,9 +18,9 @@ class GiftTest {
 
     @BeforeEach
     fun setup() {
-        winnie = Gift("0","Winnie The Pooh Teddy", 9.99, "Toy", 50)
-        nestle = Gift("1","Nestle Chocolate Box", 14.99, "Food", 60)
-        emerald = Gift("2","Emerald Dangle Earrings", 61.99, "Jewellery", 50)
+        winnie = Gift(0,"Winnie The Pooh Teddy", 9.99, "Toy", 50)
+        nestle = Gift(1,"Nestle Chocolate Box", 14.99, "Food", 60)
+        emerald = Gift(2,"Emerald Dangle Earrings", 61.99, "Jewellery", 50)
 
         filled!!.add(winnie!!)
         filled!!.add(nestle!!)
@@ -45,13 +45,13 @@ class GiftTest {
     inner class addGifts {
         @Test
         fun `adding a Gift to list adds to Arraylist`() {
-            val newGift = Gift("3","Nintendo Switch White", 364.99, "Toy", 40)
+            val newGift = Gift(3,"Nintendo Switch White", 364.99, "Toy", 40)
             assertTrue(filled!!.add(newGift))
         }
 
         @Test
         fun `adding a Gift to an empty list adds to Arraylist`() {
-            val newGift = Gift("4","Nintendo Switch White", 364.99, "Toy", 40)
+            val newGift = Gift(4,"Nintendo Switch White", 364.99, "Toy", 40)
             assertTrue(empty!!.add(newGift))
         }
     }
@@ -66,9 +66,9 @@ inner class addingPrices {
     @Test
     fun `adding all product prices together for new arraylist will give total`() {
         var gifts = ArrayList<Gift>()
-        val nintendo = Gift("0","Nintendo Switch White", 364.99, "Toy", 40)
-        val control = Gift("1","Nintendo Gaming Controller", 25.00, "Toy", 30)
-        val wispa = Gift("2","Wispa Bar", 0.99, "Food", 100)
+        val nintendo = Gift(0,"Nintendo Switch White", 364.99, "Toy", 40)
+        val control = Gift(1,"Nintendo Gaming Controller", 25.00, "Toy", 30)
+        val wispa = Gift(2,"Wispa Bar", 0.99, "Food", 100)
 
         gifts.add(nintendo)
         gifts.add(control)
@@ -81,9 +81,9 @@ inner class addingPrices {
     @Test
     fun `selecting product should copy it from one arraylist into another`() {
         var gifts = ArrayList<Gift>()
-        val nintendo = Gift("0","Nintendo Switch White", 364.99, "Toy", 40)
-        val control = Gift("1","Nintendo Gaming Controller", 25.00, "Toy", 30)
-        val wispa = Gift("2","Wispa Bar", 0.99, "Food", 100)
+        val nintendo = Gift(0,"Nintendo Switch White", 364.99, "Toy", 40)
+        val control = Gift(1,"Nintendo Gaming Controller", 25.00, "Toy", 30)
+        val wispa = Gift(2,"Wispa Bar", 0.99, "Food", 100)
 
         gifts.add(nintendo)
         gifts.add(control)
