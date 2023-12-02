@@ -13,18 +13,21 @@ class CustomerAPITest {
     private var buyers: CustomerAPI? = CustomerAPI(XMLSerializer(File("customers.xml")))
 //    private var emptyBuy: CustomerAPI? = CustomerAPI(XMLSerializer(File("customers.xml")))
 
+    private var lastId = 0
+
+     private fun getId() = lastId++
+
     @BeforeEach
     fun setup() {
-        steve = Customer(
-            0, "Steve", "Walsh",
+        steve = Customer(getId(),"Steve", "Walsh",
             "steve@mail.ie", 3538944444, "sWalsh219"
         )
         sean = Customer(
-            1, "Sean", "Penn",
+            getId(), "Sean", "Penn",
             "spenn@mail.ie", 353853333, "sPenn2123"
         )
         leanne = Customer(
-            2, "Leanne", "Whittaker",
+            getId(), "Leanne", "Whittaker",
             "lwhit@mail.ie", 353875455, "lWhitt7654"
         )
 
@@ -78,7 +81,7 @@ class CustomerAPITest {
         }
 
         @Test
-        fun `saving and loading a loaded collection in XML doesn't loose data`() {
+        fun `saving and loading a loaded collection in XML doesn't lose data`() {
             val storingCustomers = CustomerAPI(XMLSerializer(File("customers.xml")))
             storingCustomers.add(steve!!)
             storingCustomers.add(sean!!)
@@ -91,9 +94,9 @@ class CustomerAPITest {
             assertEquals(3, storingCustomers.numberOfCustomers())
             assertEquals(3, loadedCustomers.numberOfCustomers())
             assertEquals(storingCustomers.numberOfCustomers(), loadedCustomers.numberOfCustomers())
-            assertEquals(storingCustomers.findCustomer(0), loadedCustomers.findCustomer(0))
-            assertEquals(storingCustomers.findCustomer(1), loadedCustomers.findCustomer(1))
-            assertEquals(storingCustomers.findCustomer(2), loadedCustomers.findCustomer(2))
+            assertEquals(storingCustomers.findCustomer(getId()), loadedCustomers.findCustomer(getId()))
+            assertEquals(storingCustomers.findCustomer(getId()), loadedCustomers.findCustomer(getId()))
+            assertEquals(storingCustomers.findCustomer(getId()), loadedCustomers.findCustomer(getId()))
         }
     }
 }
