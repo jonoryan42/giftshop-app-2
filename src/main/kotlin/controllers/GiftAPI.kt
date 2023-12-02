@@ -35,7 +35,7 @@ class GiftAPI(serializerType: Serializer) {
                  gift.category == category
              })
              if (listOfGifts == "") "No Gifts of Category: $category"
-                  else "${numberOfGiftsByCategory(category)} gifts of category $category: $listOfGifts"
+                  else "\n${numberOfGiftsByCategory(category)} Gifts of Category: $category.\n$listOfGifts"
              }
 
     fun numberOfGifts(): Int = gifts.size

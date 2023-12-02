@@ -1,18 +1,14 @@
 import controllers.BagAPI
 import controllers.GiftAPI
 import controllers.CustomerAPI
-import models.Gift
 import models.Customer
 import mu.KotlinLogging
 import persistence.XMLSerializer
-import utils.ScannerInput.readNextDouble
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
 import utils.ScannerInput.readNextLong
 import java.io.File
 import java.lang.System.exit
-import java.util.*
-
 
 private val logger = KotlinLogging.logger {}
 private val giftAPI = GiftAPI(XMLSerializer(File("gifts.xml")))
@@ -32,16 +28,14 @@ fun mainMenu() : Int {
         >           GIFTSHOP APP    
         >                           $logged       
         > ------------------------------------
-        > | 1) All Gifts                 |
-        > | 2) View Toys                      |
-        > | 3) View Food                      |
-        > | 4) View Jewellery                 |
-        > | 5) Search                         |
+        > | 1) All Gifts                      |
+        > | 2) Gift Menu                      |
+        > | 3) Search                         |
         > -------------------------------------
-        > | 6) View Your Shopping Bag         |
-        > | 7) Create Account                 |
-        > | 8) Log-In                         |
-        > | 9) Checkout                       |
+        > | 4) View Your Shopping Bag         |
+        > | 5) Create Account                 |
+        > | 6) Log-In                         |
+        > | 7) Checkout                       |
         > -------------------------------------
         > | 0) Exit                           |
         > -------------------------------------
@@ -49,40 +43,64 @@ fun mainMenu() : Int {
 
 }
 
-//> | 9) Add Gift                       |
-
 fun runMenu() {
     load()
     do {
         val option = mainMenu()
         when (option) {
             1 -> listAllGifts()
-            2 -> viewToys()
-            3 -> viewFood()
-            4 -> viewJewel()
-            5 -> search()
-            6 -> viewBag()
-            7 -> createAccount()
-            8 -> login()
-            9 -> checkout()
+            2 -> giftMenu()
+            3 -> search()
+            4 -> viewBag()
+            5 -> createAccount()
+            6 -> login()
+            7 -> checkout()
             0 -> exitApp()
             else -> logger.info ("Invalid option entered: ${option}")
         }
     } while (true)
 }
 
-fun viewToys() {
+fun giftMenu() {
+    if (giftAPI.numberOfGifts() > 0) {
+        val option = readNextInt(
+            """Pick which Category you wish to view.
+                >-------------------
+                > | 1) Toys        |
+                > | 2) Food        |
+                > | 3) Jewellery   |
+                > | 0) Exit        |
+                > ------------------
+           >> """.trimMargin(">")
+        )
+
+        when (option) {
+            1 -> toyList()
+            2 -> foodList()
+            3 -> jewelList()
+            0 -> runMenu()
+            else -> logger.info { "Invalid option entered: $option" }
+        }
+    } else {
+            logger.info { "No Gifts Stored" }
+        }
+}
+
+fun toyList() {
+    println(giftAPI.listByCategory("Toy"))
+    listMenu()
 
 }
 
-fun viewFood() {
-
+fun foodList() {
+    println(giftAPI.listByCategory("Food"))
+    listMenu()
 }
 
-fun viewJewel() {
-
+fun jewelList() {
+    println(giftAPI.listByCategory("Jewellery"))
+    listMenu()
 }
-
 fun search() {
 
 }
@@ -174,19 +192,19 @@ fun load() {
         exit(0)
     }
 
-fun addGift() {
-    val giftId = readNextInt("enter id")
-    val title = readNextLine("enter title: ")
-    val price = readNextDouble("enter price: ")
-    val category = readNextLine("enter category: ")
-    val stock = readNextInt("enter stock: ")
-    val isAdded = giftAPI.add(Gift(giftId, title, price, category, stock))
-    if (isAdded) {
-        println("Gift Added")
-    } else {
-        logger.info {"Add Failed"}
-    }
-}
+//fun addGift() {
+//    val giftId = readNextInt("enter id")
+//    val title = readNextLine("enter title: ")
+//    val price = readNextDouble("enter price: ")
+//    val category = readNextLine("enter category: ")
+//    val stock = readNextInt("enter stock: ")
+//    val isAdded = giftAPI.add(Gift(giftId, title, price, category, stock))
+//    if (isAdded) {
+//        println("Gift Added")
+//    } else {
+//        logger.info {"Add Failed"}
+//    }
+//}
 
 fun listAllGifts() {
     println("\nAll Gifts \n\n" + giftAPI.listAllGifts() + "\n")
@@ -204,13 +222,18 @@ fun addToBag() {
     }
     listAllGifts()
 }
+//Unfortunately after you add to bag from a category list, it takes you to the All Gifts list.
 
-fun listIntro() : Int = readNextInt("Select: 1. Add Product To Bag. 0. Exit \n >> ")
+fun listIntro() : Int = readNextInt("Select: \n1. Add Product To Bag.\n2. Toys\n3. Food" +
+        "\n4. Jewellery\n0. Exit \n >> ")
 
 fun listMenu() {
     do {
         when (val option = listIntro() ) {
             1 -> addToBag()
+            2 -> toyList()
+            3 -> foodList()
+            4 -> jewelList()
             0 -> runMenu()
             else -> logger.info {"Invalid option entered: $option" }
         }
