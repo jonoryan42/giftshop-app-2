@@ -32,7 +32,7 @@ fun mainMenu() : Int {
         >           GIFTSHOP APP    
         >                           $logged       
         > ------------------------------------
-        > | 1) List All Gifts                 |
+        > | 1) All Gifts                 |
         > | 2) View Toys                      |
         > | 3) View Food                      |
         > | 4) View Jewellery                 |

@@ -12,8 +12,8 @@ class GiftTest {
     private var winnie: Gift? = null
     private var nestle: Gift? = null
     private var emerald: Gift? = null
-    private var filled: GiftAPI? = GiftAPI(XMLSerializer(File("gifts2.xml")))
-    private var empty: GiftAPI? = GiftAPI(XMLSerializer(File("gifts2.xml")))
+    private var filled: GiftAPI? = GiftAPI(XMLSerializer(File("gifts.xml")))
+    private var empty: GiftAPI? = GiftAPI(XMLSerializer(File("gifts.xml")))
     private var filledBag: BagAPI? = BagAPI()
 
     @BeforeEach
@@ -55,14 +55,52 @@ class GiftTest {
             assertTrue(empty!!.add(newGift))
         }
     }
+
+    @Nested
+    inner class listingGifts {
+        @Test
+        fun `listByCategory returns No Gifts when ArrayList is empty`() {
+            assertEquals(0, empty!!.numberOfGifts())
+            assertTrue(
+                empty!!.listByCategory("Toy").lowercase().contains("no gifts")
+            )
+        }
+
+        @Test
+        fun `listByCategory returns no Gifts when no Gifts of that category exist`() {
+            assertEquals(3, filled!!.numberOfGifts())
+            val nintendo = Gift(3,"Nintendo Switch White", 364.99, "Toy", 40)
+            filled!!.add(nintendo)
+            filled!!.delete(2)
+            val category2String = filled!!.listByCategory("Jewellery").lowercase()
+            assertTrue(category2String.contains("no gifts"))
+            assertTrue(category2String.contains("jewellery"))
+            println(category2String)
+        }
+
+        @Test
+        fun `listByCategory returns all gifts that match that category when gifts of that category exist`() {
+            assertEquals(3, filled!!.numberOfGifts())
+            val nintendo = Gift(3,"Nintendo Switch White", 364.99, "Toy", 40)
+            filled!!.add(nintendo)
+            val category1String = filled!!.listByCategory("Toy").lowercase()
+            assertTrue(category1String.contains("toy"))
+            assertTrue(category1String.contains("nintendo"))
+            assertTrue(category1String.contains("winnie"))
+            assertFalse(category1String.contains("nestle"))
+            assertFalse(category1String.contains("emerald"))
+
+            println(category1String)
+
+            val category3String = filled!!.listByCategory("Jewellery").lowercase()
+            assertTrue(category3String.contains("emerald"))
+            assertFalse(category3String.contains("winnie"))
+
+            println(category3String)
+        }
+    }
 @Nested
 inner class addingPrices {
-    @Test
-    fun `adding prices together gives total price`() {
-        val shop: Double? = filled!!.getPrice(winnie)?.plus(filled!!.getPrice(nestle)!!)
-        println(shop)
-    }
-
     @Test
     fun `adding all product prices together for new arraylist will give total`() {
         var gifts = ArrayList<Gift>()
@@ -95,6 +133,8 @@ inner class addingPrices {
 
         println(formatListString(bag) + "\n")
         println(formatListString(gifts) + "\n")
+
+        assertTrue(bag.contains(nintendo))
     }
 
     @Test

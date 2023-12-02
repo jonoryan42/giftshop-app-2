@@ -19,10 +19,29 @@ class GiftAPI(serializerType: Serializer) {
 //        } else null
 //    }
 
+    fun delete(id: Int) = gifts.removeIf { gift -> gift.giftId == id}
+
+
     fun listAllGifts(): String =
         if (gifts.isEmpty())
             "No Gifts stored"
         else formatListString(gifts)
+
+    fun listByCategory(category: String): String =
+         if (gifts.isEmpty())
+            "No Gifts stored"
+        else {
+             val listOfGifts = formatListString(gifts.filter { gift: Gift ->
+                 gift.category == category
+             })
+             if (listOfGifts == "") "No Gifts of Category: $category"
+                  else "${numberOfGiftsByCategory(category)} gifts of category $category: $listOfGifts"
+             }
+
+    fun numberOfGifts(): Int = gifts.size
+
+    fun numberOfGiftsByCategory(category: String): Int = gifts.count {gift: Gift ->
+        gift.category == category}
 
 //    fun findGift(index: Int): Gift? {
 //        return if (isValidListIndex(index, gifts)) {
@@ -63,7 +82,7 @@ class GiftAPI(serializerType: Serializer) {
         serializer.write(gifts)
     }
 
-    fun getPrice(gift: Gift?) = gift?.price
+//    fun getPrice(gift: Gift?) = gift?.price
 
     private fun formatListString(giftsToFormat: List<Gift>): String =
         giftsToFormat
