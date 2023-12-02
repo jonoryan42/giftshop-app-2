@@ -32,17 +32,16 @@ fun mainMenu() : Int {
         >           GIFTSHOP APP    
         >                           $logged       
         > ------------------------------------
-        > | 1) View Toys                      |
-        > | 2) View Food                      |
-        > | 3) View Jewellery                 |
-        > | 4) Search                         |
+        > | 1) List All Gifts                 |
+        > | 2) View Toys                      |
+        > | 3) View Food                      |
+        > | 4) View Jewellery                 |
+        > | 5) Search                         |
         > -------------------------------------
-        > | 5) View Your Shopping Bag         |
-        > | 6) Create Account                 |
-        > | 7) Log-In                         |
-        > | 8) Checkout                       |
-        > | 9) Add Gift                       |
-        > | 10) List Gifts                    |
+        > | 6) View Your Shopping Bag         |
+        > | 7) Create Account                 |
+        > | 8) Log-In                         |
+        > | 9) Checkout                       |
         > -------------------------------------
         > | 0) Exit                           |
         > -------------------------------------
@@ -50,21 +49,22 @@ fun mainMenu() : Int {
 
 }
 
+//> | 9) Add Gift                       |
+
 fun runMenu() {
     load()
     do {
         val option = mainMenu()
         when (option) {
-            1 -> viewToys()
-            2 -> viewFood()
-            3 -> viewJewel()
-            4 -> search()
-            5 -> viewBag()
-            6 -> createAccount()
-            7 -> login()
-            8 -> checkout()
-            9 -> addGift()
-            10 -> listAllGifts()
+            1 -> listAllGifts()
+            2 -> viewToys()
+            3 -> viewFood()
+            4 -> viewJewel()
+            5 -> search()
+            6 -> viewBag()
+            7 -> createAccount()
+            8 -> login()
+            9 -> checkout()
             0 -> exitApp()
             else -> logger.info ("Invalid option entered: ${option}")
         }
@@ -189,7 +189,7 @@ fun addGift() {
 }
 
 fun listAllGifts() {
-    println(giftAPI.listAllGifts() + "\n")
+    println("\nAll Gifts \n\n" + giftAPI.listAllGifts() + "\n")
     listMenu()
     }
 
@@ -255,7 +255,7 @@ fun removeAllFromBag() {
     viewBag()
 }
 
-fun listBag() = println( bagAPI.listShopping())
+fun listBag() = println(bagAPI.listShopping())
 //printing shopping bag before getting total
 
 fun createAccountMenu() {

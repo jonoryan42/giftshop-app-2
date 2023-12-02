@@ -68,7 +68,7 @@ class GiftAPI(serializerType: Serializer) {
     private fun formatListString(giftsToFormat: List<Gift>): String =
         giftsToFormat
             .joinToString( "\n") { gift -> "ID. ${gift.giftId}. " +
-                    "${gift.title} / ${gift.price} / In Stock: ${gift.stock} / ${gift.category}"}
+                    "${gift.title} / Price: ${gift.price} / In Stock: ${gift.stock} / ${gift.category}"}
 
     }
 

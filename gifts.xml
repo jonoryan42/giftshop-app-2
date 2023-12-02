@@ -21,5 +21,68 @@
       <category>Jewellery</category>
       <stock>50</stock>
     </models.Gift>
+    <models.Gift>
+      <giftId>3</giftId>
+      <title>Nintendo Switch OLED White</title>
+      <price>364.99</price>
+      <category>Toy</category>
+      <stock>40</stock>
+    </models.Gift>
+    <models.Gift>
+      <giftId>4</giftId>
+      <title>Nintendo Switch Gaming Controller</title>
+      <price>25.00</price>
+      <category>Toy</category>
+      <stock>30</stock>
+    </models.Gift>
+    <models.Gift>
+      <giftId>5</giftId>
+      <title>Otterbox Powerpak</title>
+      <price>29.99</price>
+      <category>Toy</category>
+      <stock>20</stock>
+    </models.Gift>
+    <models.Gift>
+      <giftId>6</giftId>
+      <title>Cadbury Wispa Chocolate Bar</title>
+      <price>0.99</price>
+      <category>Food</category>
+      <stock>100</stock>
+    </models.Gift>
+    <models.Gift>
+      <giftId>7</giftId>
+      <title>Haribo Starmix Jellies</title>
+      <price>0.99</price>
+      <category>Food</category>
+      <stock>70</stock>
+    </models.Gift>
+    <models.Gift>
+      <giftId>8</giftId>
+      <title>Gold Celtic Claddagh Trinity Knot Ring</title>
+      <price>165.99</price>
+      <category>Jewellery</category>
+      <stock>5</stock>
+    </models.Gift>
+    <models.Gift>
+      <giftId>9</giftId>
+      <title>Maoam Sweets</title>
+      <price>1.99</price>
+      <category>Food</category>
+      <stock>80</stock>
+    </models.Gift>
+    <models.Gift>
+      <giftId>10</giftId>
+      <title>Silver Diamond Infinity Heart Necklace</title>
+      <price>48.99</price>
+      <category>Jewellery</category>
+      <stock>10</stock>
+    </models.Gift>
+    <models.Gift>
+      <giftId>11</giftId>
+      <title>GAA Pendant</title>
+      <price>9.99</price>
+      <category>Jewellery</category>
+      <stock>20</stock>
+    </models.Gift>
   </list>
 </object-stream>
