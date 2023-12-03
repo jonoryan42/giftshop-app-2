@@ -102,7 +102,14 @@ fun jewelList() {
     listMenu()
 }
 fun search() {
-
+    val searchTitle = readNextLine("Enter Gift name to search by: \n>> ")
+    val searchResults = giftAPI.searchByTitle(searchTitle)
+    if(searchResults.isEmpty()) {
+        println("There's no gift matching this search.")
+    } else {
+        println(searchResults)
+        listMenu()
+    }
 }
 
 fun viewBag() {
