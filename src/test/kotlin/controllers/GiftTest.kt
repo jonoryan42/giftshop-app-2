@@ -1,9 +1,15 @@
 package controllers
 
 import models.Gift
-import org.junit.jupiter.api.*
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import  org.junit.jupiter.api.Assertions.assertFalse
 import persistence.XMLSerializer
+//import persistence.CborSerializer
 import utils.Utilities.formatListString
 import java.io.File
 
@@ -12,8 +18,12 @@ class GiftTest {
     private var winnie: Gift? = null
     private var nestle: Gift? = null
     private var emerald: Gift? = null
-    private var filled: GiftAPI? = GiftAPI(XMLSerializer(File("gifts.xml")))
+
+        private var filled: GiftAPI? = GiftAPI(XMLSerializer(File("gifts.xml")))
     private var empty: GiftAPI? = GiftAPI(XMLSerializer(File("gifts.xml")))
+//    private var filled: GiftAPI? = GiftAPI(CborSerializer(File("gifts.cbor")))
+//    private var empty: GiftAPI? = GiftAPI(CborSerializer(File("gifts.cbor")))
+
     private var filledBag: BagAPI? = BagAPI()
 
     @BeforeEach
@@ -165,4 +175,52 @@ class GiftTest {
         }
 
     }
-}
+    @Nested
+    inner class persistence {
+        @Test
+        fun `saving and loading an empty collection in XML doesn't crash app`() {
+            val storingGifts = GiftAPI(XMLSerializer(File("gifts.xml")))
+            storingGifts.store()
+
+            val loadedGifts = GiftAPI(XMLSerializer(File("gifts.xml")))
+            loadedGifts.load()
+
+            assertEquals(0, storingGifts.numberOfGifts())
+            assertEquals(0, loadedGifts.numberOfGifts())
+            assertEquals(storingGifts.numberOfGifts(), loadedGifts.numberOfGifts())
+        }
+
+        @Test
+        fun `saving and loading a loaded collection in XML doesn't lose data`() {
+            val storingGifts = GiftAPI(XMLSerializer(File("gifts.xml")))
+            storingGifts.add(winnie!!)
+            storingGifts.add(nestle!!)
+            storingGifts.add(emerald!!)
+            storingGifts.store()
+
+            val loadedGifts = GiftAPI(XMLSerializer(File("gifts.xml")))
+            loadedGifts.load()
+
+            assertEquals(3, storingGifts.numberOfGifts())
+            assertEquals(3, loadedGifts.numberOfGifts())
+            assertEquals(storingGifts.numberOfGifts(), loadedGifts.numberOfGifts())
+            assertEquals(storingGifts.findGift(0), loadedGifts.findGift(0))
+            assertEquals(storingGifts.findGift(1), loadedGifts.findGift(1))
+            assertEquals(storingGifts.findGift(2), loadedGifts.findGift(2))
+
+        }
+    }
+    }
+//        @Test
+//        fun `saving and loading an empty collection in CBOR doesn't crash app`() {
+//            val storingGifts = GiftAPI(CborSerializer(File("gifts.cbor")))
+//            storingGifts.store()
+//
+//            val loadedGifts = GiftAPI(CborSerializer(File("gifts.cbor")))
+//            loadedGifts.load()
+//
+//            assertEquals(0, storingGifts.numberOfGifts())
+//            assertEquals(0, loadedGifts.numberOfGifts())
+//            assertEquals(storingGifts.numberOfGifts(), loadedGifts.numberOfGifts())
+//        }
+//    }

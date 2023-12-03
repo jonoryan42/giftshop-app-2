@@ -13,12 +13,6 @@ class GiftAPI(serializerType: Serializer) {
         return gifts.add(gift)
     }
 
-//    fun deleteGift(indexToDelete: Int): Gift? {
-//        return if (isValidListIndex(indexToDelete, gifts)) {
-//            gifts.removeAt(indexToDelete)
-//        } else null
-//    }
-
     fun delete(id: Int) = gifts.removeIf { gift -> gift.giftId == id}
 
 
@@ -43,32 +37,9 @@ class GiftAPI(serializerType: Serializer) {
     fun numberOfGiftsByCategory(category: String): Int = gifts.count {gift: Gift ->
         gift.category == category}
 
-//    fun findGift(index: Int): Gift? {
-//        return if (isValidListIndex(index, gifts)) {
-//            gifts[index]
-//        } else null
-//    }
-
-//    fun updateGift(giftId: String, gift: Gift?): Boolean {
-//        val foundGift = findGift(giftId)
-//        if (foundGift != null) && (gift != null) {
-//            foundGift.giftId = gift.giftId
-//            foundGift.title = gift.title
-//            foundGift.category = gift.category
-//            foundGift.price = gift.price
-//            foundGift.stock = gift.stock
-//            return true
-//        }
-//        return false
-//    }
-
     fun searchByTitle(searchString: String) =
         formatListString(
             gifts.filter { gift -> gift.title.contains(searchString, ignoreCase = true) })
-
-//    fun searchById(searchString: String) =
-//        formatListString(
-//            gifts.filter { gift -> gift.giftId.contains(searchString, ignoreCase = true) })
 
     fun findGift(giftId : Int) =  gifts.find{ gift -> gift.giftId == giftId }
 
@@ -81,8 +52,6 @@ class GiftAPI(serializerType: Serializer) {
     fun store() {
         serializer.write(gifts)
     }
-
-//    fun getPrice(gift: Gift?) = gift?.price
 
     private fun formatListString(giftsToFormat: List<Gift>): String =
         giftsToFormat

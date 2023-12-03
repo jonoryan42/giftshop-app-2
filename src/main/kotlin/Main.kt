@@ -42,7 +42,7 @@ fun mainMenu() : Int {
         >  >> """.trimMargin(">"))
 
 }
-
+//'logged' variable is placed in top right of menu to display that user has logged in.
 fun runMenu() {
     load()
     do {
@@ -79,6 +79,7 @@ fun giftMenu() {
             2 -> foodList()
             3 -> jewelList()
             0 -> runMenu()
+
             else -> logger.info { "Invalid option entered: $option" }
         }
     } else {
@@ -176,6 +177,7 @@ fun login() {
         }
     }
 }
+//Used the variable 'logged' as a way of signaling that user has logged in.
 
 fun save() {
     try {
