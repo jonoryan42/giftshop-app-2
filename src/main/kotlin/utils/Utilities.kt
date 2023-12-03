@@ -11,6 +11,9 @@ object Utilities {
             .joinToString(separator = "\n") { gift -> "$gift"}
     //for testing
 
+    /**
+     * Rounds double down to two decimal places.
+     */
     fun roundTwoDecimals(number: Double) = round(number * 100) / 100
 
     }

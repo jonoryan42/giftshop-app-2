@@ -14,18 +14,34 @@ import utils.Utilities.formatListString
 import java.io.File
 
 
+/**
+ * Class for testing Gift objects and functions relating to them.
+ */
 class GiftTest {
+    /**
+     * Gift objects.
+     *
+     * Set to null.
+     */
     private var winnie: Gift? = null
     private var nestle: Gift? = null
     private var emerald: Gift? = null
 
+    /**
+     * Gift arraylists. One filled, One empty.
+     */
         private var filled: GiftAPI? = GiftAPI(XMLSerializer(File("gifts.xml")))
     private var empty: GiftAPI? = GiftAPI(XMLSerializer(File("gifts.xml")))
 //    private var filled: GiftAPI? = GiftAPI(CborSerializer(File("gifts.cbor")))
 //    private var empty: GiftAPI? = GiftAPI(CborSerializer(File("gifts.cbor")))
-
+    /**
+     * Bag arraylist of type Gift.
+     */
     private var filledBag: BagAPI? = BagAPI()
 
+    /**
+     * Prepares variables before testing.
+     */
     @BeforeEach
     fun setup() {
         winnie = Gift(0, "Winnie The Pooh Teddy", 9.99, "Toy", 50)
@@ -41,6 +57,9 @@ class GiftTest {
         filledBag!!.add(emerald!!)
     }
 
+    /**
+     * Nullifies variables after testing.
+     */
     @AfterEach
     fun tearDown() {
         winnie = null
@@ -51,8 +70,16 @@ class GiftTest {
         filledBag = null
     }
 
+    /**
+     * Class for tests involving adding Gifts to arraylists.
+     */
     @Nested
     inner class addGifts {
+        /**
+         * Testing whether gifts are added to arraylists or not.
+         *
+         * [assertTrue] assumes that function returns true for testing.
+         */
         @Test
         fun `adding a Gift to list adds to Arraylist`() {
             val newGift = Gift(3, "Nintendo Switch White", 364.99, "Toy", 40)
@@ -66,8 +93,17 @@ class GiftTest {
         }
     }
 
+    /**
+     * Class for testing how Gifts are listed.
+     */
     @Nested
     inner class listingGifts {
+        /**
+         * Tests whether Listing by Category will return requested lists or mot/
+         *
+         * [assertEquals] assumes that function will return true if contents equal each other.
+         * [assertFalse] assumes that function will return true if contents are incorrect.
+         */
         @Test
         fun `listByCategory returns No Gifts when ArrayList is empty`() {
             assertEquals(0, empty!!.numberOfGifts())
@@ -110,6 +146,11 @@ class GiftTest {
         }
     }
 
+    /**
+     * Testing for searching functions.
+     *
+     * Tests whether function will return true if String entered is valid or not.
+     */
     @Nested
     inner class searching {
         @Test
@@ -128,6 +169,11 @@ class GiftTest {
         }
     }
 
+    /**
+     * Testing for adding gift from one arraylist to another.
+     *
+     * Testing for deleting gifts from an arraylist.
+     */
     @Nested
     inner class shoppingBagTests {
         @Test
@@ -175,6 +221,9 @@ class GiftTest {
         }
 
     }
+    /**
+     * Testing whether gift information is being saved or not.
+     */
     @Nested
     inner class persistence {
         @Test

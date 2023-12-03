@@ -1,0 +1,28 @@
+<object-stream>
+  <list>
+    <models.Customer>
+      <customerId>0</customerId>
+      <firstName>Steve</firstName>
+      <surname>Walsh</surname>
+      <email>steve@mail.ie</email>
+      <phone>3538944444</phone>
+      <password>sWalsh219</password>
+    </models.Customer>
+    <models.Customer>
+      <customerId>1</customerId>
+      <firstName>Sean</firstName>
+      <surname>Penn</surname>
+      <email>spenn@mail.ie</email>
+      <phone>353853333</phone>
+      <password>sPenn2123</password>
+    </models.Customer>
+    <models.Customer>
+      <customerId>2</customerId>
+      <firstName>Leanne</firstName>
+      <surname>Whittaker</surname>
+      <email>lwhit@mail.ie</email>
+      <phone>353875455</phone>
+      <password>lWhitt7654</password>
+    </models.Customer>
+  </list>
+</object-stream>

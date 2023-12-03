@@ -10,17 +10,47 @@ import utils.ScannerInput.readNextLong
 import java.io.File
 import java.lang.System.exit
 
+/**
+ * Allows use of KotlinLogging.
+ */
 private val logger = KotlinLogging.logger {}
+
+/**
+ * Creates GiftAPI object.
+ *
+ * @property XMLSerializer allows to save and load to an xml file.
+ */
 private val giftAPI = GiftAPI(XMLSerializer(File("gifts.xml")))
+
+/**
+ * Creates CustomerAPI object.
+ */
 private val customerAPI = CustomerAPI(XMLSerializer(File("customers.xml")))
+
+/**
+ * Creates BagAPI object.
+ */
 private val bagAPI = BagAPI()
 
+/**
+ * Variable for text on menu.
+ */
 private var logged = " "
 
+/**
+ * Main Method.
+ *
+ * [runMenu] Runs menu function.
+ */
 fun main(args: Array<String>) {
     runMenu()
 }
 
+/**
+ * Interface for Main Menu.
+ *
+ * [readNextInt] prompts user to enter an Int.
+ */
 fun mainMenu() : Int {
     return readNextInt("""
         > ------------------------------------
@@ -43,6 +73,12 @@ fun mainMenu() : Int {
 
 }
 //'logged' variable is placed in top right of menu to display that user has logged in.
+
+/**
+ * Represents options to be selected on Menu.
+ *
+ * Options are selected by Int and include various Main functions.
+ */
 fun runMenu() {
     load()
     do {
@@ -61,6 +97,13 @@ fun runMenu() {
     } while (true)
 }
 
+/**
+ * Function for displaying different categories of gift listing.
+ *
+ * This menu takes an Int and returns listing based on user selection.
+ *
+ * [logger] Shows logging message.
+ */
 fun giftMenu() {
     if (giftAPI.numberOfGifts() > 0) {
         val option = readNextInt(
@@ -87,21 +130,36 @@ fun giftMenu() {
         }
 }
 
+/**
+ * Function for displaying list of Gifts of Category: Toy.
+ */
 fun toyList() {
     println(giftAPI.listByCategory("Toy"))
     listMenu()
 
 }
 
+/**
+ * Function for displaying list of Gifts of Category: Food.
+ */
 fun foodList() {
     println(giftAPI.listByCategory("Food"))
     listMenu()
 }
 
+/**
+ * Function for displaying list of Gifts of Category: Jewellery.
+ */
 fun jewelList() {
     println(giftAPI.listByCategory("Jewellery"))
     listMenu()
 }
+
+/**
+ * Function that allows user to search for a Gift.
+ *
+ * Will return whether searched String matches a Gift name or not.
+ */
 fun search() {
     val searchTitle = readNextLine("Enter Gift name to search by: \n>> ")
     val searchResults = giftAPI.searchByTitle(searchTitle)
@@ -113,6 +171,9 @@ fun search() {
     }
 }
 
+/**
+ * Displays gifts added to the Shopping Bag.
+ */
 fun viewBag() {
     if (bagAPI.numberOfGifts() == 0) {
         println("No Gifts Stored in Bag.")
@@ -124,11 +185,19 @@ fun viewBag() {
     }
 }
 
+/**
+ * Allows User to Create an Account.
+ */
 fun createAccount() {
     println("Please enter these details.")
     createAccountMenu()
 }
 
+/**
+ * Allows user to Checkout.
+ *
+ * Items are removed from bag after checkout.
+ */
 fun checkout() {
       if (logged !== "Logged In") {
           println("You must Log-In first.")
@@ -155,6 +224,11 @@ fun checkout() {
       }
     }
 
+/**
+ * Allows user to log in to their account.
+ *
+ * Checks validation of user and password.
+ */
 fun login() {
 
     if(logged == "Logged In") {
@@ -179,6 +253,9 @@ fun login() {
 }
 //Used the variable 'logged' as a way of signaling that user has logged in.
 
+/**
+ * Function to save entered Customer information.
+ */
 fun save() {
     try {
 //        giftAPI.store()
@@ -188,6 +265,9 @@ fun save() {
     }
 }
 
+/**
+ * Function to load Customer and Gift information.
+ */
 fun load() {
     try {
         giftAPI.load()
@@ -196,6 +276,10 @@ fun load() {
         System.err.println("Error reading from file: $e")
     }
 }
+
+/**
+ * Function to exit the app.
+ */
     fun exitApp() {
         println("App ended.")
         exit(0)
@@ -215,11 +299,17 @@ fun load() {
 //    }
 //}
 
+/**
+ * Returns a list of All Gifts.
+ */
 fun listAllGifts() {
     println("\nAll Gifts \n\n" + giftAPI.listAllGifts() + "\n")
     listMenu()
     }
 
+/**
+ * Allows user to add to shopping bag.
+ */
 fun addToBag() {
     val indexToAdd = readNextInt("Enter ID of product to add to Bag: \n >> ")
     val giftToAdd = giftAPI.findGift(indexToAdd)
@@ -233,9 +323,15 @@ fun addToBag() {
 }
 //Unfortunately after you add to bag from a category list, it takes you to the All Gifts list.
 
+/**
+ * Displays text and takes an Int for menu options.
+ */
 fun listIntro() : Int = readNextInt("Select: \n1. Add Product To Bag.\n2. Toys\n3. Food" +
         "\n4. Jewellery\n0. Exit \n >> ")
 
+/**
+ * Another Menu that allows user to traverse to other Menu sections.
+ */
 fun listMenu() {
     do {
         when (val option = listIntro() ) {
@@ -249,6 +345,9 @@ fun listMenu() {
     } while (true)
 }
 
+/**
+ * Options for the Shopping Bag Menu.
+ */
 fun bagMenu() {
         do {
             when (val option = bagIntro()) {
@@ -260,10 +359,16 @@ fun bagMenu() {
             }
         } while (true)
 }
+
+/**
+ * Text displayed on Shopping Bag Menu.
+ */
 fun bagIntro() : Int = readNextInt("Select: \n1. Remove Product from Bag. " +
         "\n2. Remove All Products from Bag. \n3. Checkout. \n0. Exit \n >> ")
 
-
+/**
+ * Allows user to remove items from Bag.
+ */
 fun removeFromBag() {
     val indexToDelete = readNextInt("Enter the ID of Product to remove from Bag: \n >> ")
     val idForDelete = giftAPI.findGift(indexToDelete)
@@ -276,6 +381,9 @@ fun removeFromBag() {
 //Unfortunately, selecting ID of product for deletion from the shopping bag
 //will remove duplicates as well.
 
+/**
+ * Option to Remove all gifts from Bag.
+ */
 fun removeAllFromBag() {
     if (bagAPI.numberOfGifts() != 0 ) {
         bagAPI.deleteAll()
@@ -287,9 +395,15 @@ fun removeAllFromBag() {
     viewBag()
 }
 
+/**
+ * Displays all gifts in the shopping bag.
+ */
 fun listBag() = println(bagAPI.listShopping())
 //printing shopping bag before getting total
 
+/**
+ * Menu used for creating Customer Account.
+ */
 fun createAccountMenu() {
     val firstName = readNextLine("First Name: >> ")
     val surname = readNextLine("Surname: >> ")

@@ -10,13 +10,22 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import persistence.XMLSerializer
 import java.io.File
 
+/**
+ * Class for testing Customer-related functions and objects.
+ */
 class CustomerAPITest {
+    /**
+     * Customer objects. Set to null/
+     */
     private var steve: Customer? = null
     private var sean: Customer? = null
     private var leanne: Customer? = null
     private var buyers: CustomerAPI? = CustomerAPI(XMLSerializer(File("customers.xml")))
 //    private var emptyBuy: CustomerAPI? = CustomerAPI(XMLSerializer(File("customers.xml")))
 
+    /**
+     * ID Configuration.
+     */
     private var lastId = 0
 
      private fun getId() = lastId++
@@ -47,6 +56,9 @@ class CustomerAPITest {
         leanne = null
     }
 
+    /**
+     * Tests for Adding Customers to an arraylist.
+     */
     @Nested
     inner class AddCustomers {
         @Test
@@ -68,6 +80,9 @@ class CustomerAPITest {
         }
     }
 
+    /**
+     * Testing for saving and loading Customer information.
+     */
     @Nested
     inner class PersistenceTests {
 
