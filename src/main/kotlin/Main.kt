@@ -42,7 +42,7 @@ fun mainMenu() : Int {
         >  >> """.trimMargin(">"))
 
 }
-
+//'logged' variable is placed in top right of menu to display that user has logged in.
 fun runMenu() {
     load()
     do {

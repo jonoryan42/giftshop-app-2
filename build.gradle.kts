@@ -2,11 +2,14 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.8.21"
+    id("org.jetbrains.dokka") version "1.9.10"
+    jacoco
+    id("org.jlleitschuh.gradle.ktlint") version "11.3.1"
     application
 }
 
-group = "me.20101393"
-version = "1.0-SNAPSHOT"
+group = "ie.setu"
+version = "1.0"
 
 repositories {
     mavenCentral()
@@ -26,11 +29,12 @@ dependencies {
     implementation("org.codehaus.jettison:jettison:1.5.4")
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.14.2")
-
+    implementation("org.jetbrains.dokka:dokka-gradle-plugin:1.9.10")
 }
 
 tasks.test {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
 }
 
 tasks.withType<KotlinCompile> {
@@ -43,4 +47,15 @@ kotlin {
 
 application {
     mainClass.set("MainKt")
+}
+
+tasks.jar {
+    manifest.attributes["Main-Class"] = "MainKt"
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from(sourceSets.main.get().output)
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar")
+        }.map { zipTree(it) }
+    })
 }
